@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Episode Detail</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <style>
+        video {
+            width: 100%;
+            max-width: 1200px;
+            height: auto;
+        }
+        }
+    </style>
+</head>
+<body>
+<!-- Include header -->
+<th:block th:include="header.html"></th:block>
+
+<div class="container mt-5">
+    <!-- Kiểm tra nếu currentEpisode tồn tại -->
+    <div th:if="${currentEpisode != null}">
+        <h1 th:text="'Episode ' + ${currentEpisode.episodeNumber}">Episode Title</h1>
+        <p th:text="${currentEpisode.title}">Episode Title</p>
+
+        <!-- Hiển thị video nếu có -->
+        <div>
+            <video th:src="${currentEpisode.videoUrl}" controls></video>
+        </div>
+
+        <!-- Điều hướng tập trước và tập tiếp theo -->
+        <div class="mt-4">
+            <div th:if="${previousEpisode != null}">
+                <a th:href="@{'/episode/detail/' + ${anime.id} + '/' + ${previousEpisode.episodeNumber}}" class="btn btn-secondary">Previous Episode</a>
+            </div>
+
+            <div th:if="${nextEpisode != null}">
+                <a th:href="@{'/episode/detail/' + ${anime.id} + '/' + ${nextEpisode.episodeNumber}}" class="btn btn-primary">Next Episode</a>
+            </div>
+        </div>
+    </div>
+
+    <!-- Nếu không tìm thấy episode, hiển thị lỗi -->
+    <div th:if="${currentEpisode == null}">
+        <p>Episode not found.</p>
+    </div>
+
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

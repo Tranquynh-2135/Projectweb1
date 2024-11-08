@@ -1,0 +1,70 @@
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-spring4-4.dtd">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+
+<!-- Include header -->
+<th:block th:include="header.html"></th:block>
+
+<!-- Content of the page -->
+<div class="container mt-5">
+    <!-- Hiển thị kết quả tìm kiếm nếu có từ khóa -->
+    <h2 th:if="${keyword != null}" class="mb-4">Search results for "<span th:text="${keyword}">Keyword</span>"</h2>
+
+    <!-- Kiểm tra xem có anime nào hay không -->
+    <div th:if="${#lists.isEmpty(animes)}">
+        <p>No anime found.</p>
+    </div>
+
+    <!-- Nếu có anime, hiển thị danh sách -->
+    <div class="row" th:if="${!#lists.isEmpty(animes)}">
+        <!-- Lặp qua các anime và hiển thị thông tin -->
+        <div class="col-md-3 mb-4" th:each="anime : ${animes}">
+            <div class="card">
+                <img th:src="@{'/images/phim/' + ${anime.coverImage}}" class="card-img-top" alt="Anime image" style="height: 450px; object-fit: cover;">
+                <div class="card-body">
+                    <h5 class="card-title" th:text="${anime.title}">Anime Title</h5>
+                    <p class="card-text">
+                        <strong>Rating:</strong> <span th:text="${anime.rating}">Rating</span>
+                    </p>
+                    <p class="card-text">
+                        <strong>Release Year:</strong> <span th:text="${anime.releaseYear}">Release Year</span>
+                    </p>
+                    <a href="#" class="btn btn-primary" th:href="@{'/anime/detail/' + ${anime.id}}">Details</a>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Phân trang -->
+    <!-- Phân trang -->
+    <nav aria-label="Page navigation" class="mt-4">
+        <ul class="pagination justify-content-center">
+            <!-- Kiểm tra và hiển thị phân trang khi có trang -->
+            <li class="page-item" th:each="i : ${#numbers.sequence(0, totalPages != null ? totalPages - 1 : 0)}"
+                th:classappend="${i == currentPage} ? 'active'">
+                <a class="page-link" th:href="@{'/?page=' + ${i}}" th:text="${i + 1}">1</a>
+            </li>
+
+
+            <!-- Nếu không có trang nào, hiển thị thông báo -->
+            <li th:unless="${totalPages > 1}">
+                <p>No pages available.</p>
+            </li>
+        </ul>
+    </nav>
+</div>
+
+
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Anime Detail</title>
+    <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+
+<!-- Include header -->
+<th:block th:include="header.html"></th:block>
+
+<div class="container mt-5">
+    <div class="row">
+        <div class="col-md-4">
+            <img th:src="@{'/images/phim/' + ${anime.coverImage}}" class="img-fluid" alt="Anime image">
+        </div>
+        <div class="col-md-8">
+            <h2 th:text="${anime.title}">Anime Title</h2>
+            <p><strong>Release Year:</strong> <span th:text="${anime.releaseYear}">Release Year</span></p>
+            <p><strong>Rating:</strong> <span th:text="${anime.rating}">Rating</span></p>
+            <p><strong>Description:</strong> <span th:text="${anime.description}">Description</span></p>
+
+            <h4>Episodes</h4>
+            <ul class="list-group">
+                <li class="list-group-item" th:each="episode : ${anime.episodes}">
+                    <a th:href="@{'/episode/detail/' + ${anime.id} + '/' + ${episode.episodeNumber}}" th:text="'Episode ' + ${episode.episodeNumber}"></a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.3/dist/umd/popper.min.js"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+</body>
+</html>
