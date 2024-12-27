@@ -148,14 +148,14 @@ public class animeController {
     }
 
 
-    @PostMapping("/anime")
+    @PostMapping("/animes")
     public ResponseEntity<Anime> createAnime(@RequestBody Anime anime) {
         animeService.save(anime);
         return ResponseEntity.status(201).body(anime);
     }
 
 
-    @PutMapping("/anime/{id}")
+    @PutMapping("/animes/{id}")
     public ResponseEntity<Anime> udpateAnime(@PathVariable("id") Long animeId, @RequestBody Anime updateAnime){
         Anime anime = animeService.findById(animeId);
         if (anime != null) {
